@@ -7,4 +7,4 @@ public record UserHabitsStatisticsResponse(
     int habitsInGoodStreak,
     int veteranHabits,
     double averageStreak
-) { }
+) {}
