@@ -62,5 +62,4 @@ public class HabitJpaDomainMapper {
         jpaEntity.setCurrentStreak(domainEntity.getStatistics().currentStreak());
         jpaEntity.setBestStreak(domainEntity.getStatistics().bestStreak());
     }
-
 }
