@@ -32,10 +32,10 @@ public class HabitJpaEntity {
     private String description;
 
     @Column(name = "active", nullable = false)
-    private String active;
+    private Boolean active;
 
     @Column(name = "current_streak", nullable = false)
-    private Boolean currentStreak;
+    private Integer currentStreak;
 
     @Column(name = "best_streak", nullable = false)
     private Integer bestStreak;
