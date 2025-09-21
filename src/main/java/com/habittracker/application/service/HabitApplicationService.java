@@ -1,7 +1,9 @@
 package com.habittracker.application.service;
 
 import com.habittracker.application.dto.command.*;
+import com.habittracker.application.dto.response.HabitListResponse;
 import com.habittracker.application.dto.response.HabitResponse;
+import com.habittracker.application.dto.response.UserHabitsStatisticsResponse;
 import com.habittracker.application.exception.ValidationException;
 import com.habittracker.application.usecase.*;
 import com.habittracker.domain.exception.HabitDomainException;
@@ -76,6 +78,7 @@ public class HabitApplicationService {
         try {
             return deactivateHabitUseCase.execute(command);
         } catch (HabitDomainException e) {
+            log.warn("Erro de domínio ao desativar hábito: {}", e.getMessage());
             throw new ValidationException("Erro de validação: " + e.getMessage(), null);
         }
     }
@@ -88,6 +91,7 @@ public class HabitApplicationService {
         try {
             return reactivateHabitUseCase.execute(command);
         } catch (HabitDomainException e) {
+            log.warn("Erro de domínio ao reativar hábito: {}", e.getMessage());
             throw new ValidationException("Erro de validação: " + e.getMessage(), null);
         }
     }
@@ -100,8 +104,43 @@ public class HabitApplicationService {
         try {
             return breakHabitStreakUseCase.execute(command);
         } catch (HabitDomainException e) {
+            log.warn("Erro de domínio ao quebrar a sequência do hábito: {}", e.getMessage());
             throw new ValidationException("Erro de validação: " + e.getMessage(), null);
         }
+    }
+
+    public HabitListResponse getActiveUserHabits(String userIdStr) {
+        log.info("Processando busca de lista de hábtios ativos para o usuário: {}", userIdStr);
+
+        validateUserId(userIdStr);
+
+        try {
+            return getActiveUserHabitsUseCase.execute(userIdStr);
+        } catch (HabitDomainException e) {
+            log.warn("Erro de domínio ao recuperar os hábitos ativos do usuário: {}", e.getMessage());
+            throw new ValidationException("Erro de validação: " + e.getMessage(), null);
+        }
+    }
+
+    public HabitListResponse getUserHabits(String userIdStr) {
+        log.info("Processando busca de hábitos para o usuário: {}", userIdStr);
+
+        validateUserId(userIdStr);
+
+        try {
+            return getUserHabitsUseCase.execute(userIdStr);
+        } catch (HabitDomainException e) {
+            log.warn("Erro de domínio ao recuperar hábitos do usuário: {}", e.getMessage());
+            throw new ValidationException("Erro de validação: " + e.getMessage(), null);
+        }
+    }
+
+    public UserHabitsStatisticsResponse getUserHabitsStatistics(String userIdStr) {
+        log.info("Processando busca de estatísticas do usuário: {}", userIdStr);
+
+        validateUserId(userIdStr);
+
+        return getUserHabitsStatisticsUseCase.execute(userIdStr);
     }
 
     private <T> void validateCommand(T command) {
@@ -113,6 +152,18 @@ public class HabitApplicationService {
                     .toList();
 
             throw new ValidationException("Dados de entrada inválidos", errors);
+        }
+    }
+
+    private void validateUserId(String userId) {
+        if (userId == null || userId.trim().isEmpty()) {
+            throw new ValidationException("ID do usuário é obrigatório", null);
+        }
+    }
+
+    private void validateHabitId(String habitIdStr) {
+        if (habitIdStr == null || habitIdStr.trim().isEmpty()) {
+            throw new ValidationException("ID do hábito é obrigatório.", null);
         }
     }
 }
