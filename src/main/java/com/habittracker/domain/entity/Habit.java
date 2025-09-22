@@ -12,7 +12,7 @@ public class Habit {
     private final HabitId id;
     private final UserId userId;
     private BasicInformation information;
-    private final ProgressStatistics statistics;
+    private ProgressStatistics statistics;
     private LifecycleState state;
 
     public Habit(HabitId id, UserId userId, String name, String description) {
@@ -38,12 +38,12 @@ public class Habit {
 
     public void incrementStreak() {
         validateHabitActive();
-        this.statistics.incrementStreak();
+        this.statistics = this.statistics.incrementStreak();
     }
 
     public void breakStreak() {
         validateHabitActive();
-        this.statistics.breakStreak();
+        this.statistics = this.statistics.breakStreak();
     }
 
     public void deactivate() {
@@ -57,7 +57,7 @@ public class Habit {
         if (this.state.active()) {
             throw new HabitDomainException("Hábito já está ativo.");
         }
-        this.state.activate();
+        this.state = this.state.activate();
     }
 
     public boolean isInGoodStreak() {

@@ -20,9 +20,6 @@ spring:
         batch_versioned_data: true
     hibernate:
       ddl-auto: validate
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.SnakeCasePhysicalNamingStrategy
-        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
 
   flyway:
     enabled: true
@@ -45,3 +42,12 @@ logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: when_authorized
