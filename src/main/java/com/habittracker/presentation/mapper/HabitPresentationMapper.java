@@ -5,6 +5,7 @@ import com.habittracker.application.dto.command.UpdateHabitCommand;
 import com.habittracker.application.dto.response.HabitListResponse;
 import com.habittracker.application.dto.response.HabitResponse;
 import com.habittracker.presentation.dto.request.CreateHabitRequest;
+import com.habittracker.presentation.dto.request.UpdateHabitRequest;
 import com.habittracker.presentation.dto.response.HabitApiResponse;
 import com.habittracker.presentation.dto.response.HabitListApiResponse;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,7 @@ public class HabitPresentationMapper {
         );
     }
 
-    public UpdateHabitCommand toCommand(UpdateHabitCommand request, String habitId, String userId) {
+    public UpdateHabitCommand toCommand(UpdateHabitRequest request, String habitId, String userId) {
         return new UpdateHabitCommand(
                 habitId,
                 userId,
