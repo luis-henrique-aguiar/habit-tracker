@@ -23,7 +23,7 @@ export interface Habit {
 
 export interface HabitListResponse {
   habits: Habit[],
-  metadate: {
+  metadata: {
     total: number;
     active: number;
     inactive: number;
